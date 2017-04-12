@@ -5,8 +5,8 @@ const dbPw = process.env.DB_PW
 const mongoose = require('mongoose')
 const chalk = require('chalk')
 const dbUri = env === 'production'
-                      ? `mongodb://${dbUser}:${dbPw}@ds157740.mlab.com:57740/code_notes`
-                      : `mongodb://localhost/code_notes`
+                      ? `mongodb://${dbUser}:${dbPw}@ds159180.mlab.com:59180/posts`
+                      : `mongodb://localhost/posts`
 
 mongoose.Promise = require('bluebird')
 mongoose.connect(dbUri)

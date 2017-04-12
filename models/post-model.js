@@ -2,9 +2,9 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Post = new Schema({
-  title: String,
-  content: String,
-  tags: [ String ]
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  tags: [{ type: String }]
 },
   {
     timestamps: true
