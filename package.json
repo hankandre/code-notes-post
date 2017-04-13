@@ -9,10 +9,10 @@
     "koa-compress": "^2.0.0",
     "koa-logger": "^2.0.1",
     "koa-router": "^7.1.1",
+    "nodemon": "^1.11.0",
     "mongoose": "^4.9.4"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
     "standard": "^10.0.1"
   }
 }
