@@ -1,4 +1,4 @@
 'use strict'
 module.exports = {
-  PostModel: require('./post-model')
+  Post: require('./Post')
 }

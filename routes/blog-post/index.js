@@ -4,13 +4,13 @@ const controller = require('./controller')
 
 router.prefix('post')
 
-router.post('/', controller.save)
+router.post('/', async (ctx, next) => { console.log(ctx.method); await next() }, controller.save)
 
-router.put('/', controller.update)
+router.put('/', async (ctx, next) => { console.log(ctx.method); await next() }, controller.update)
 
-router.get('/:id', controller.find)
+router.get('/:id', async (ctx, next) => { console.log(ctx.method); await next() }, controller.find)
 
-router.delete('/:id/delete', controller.remove)
+router.delete('/:id/delete', async (ctx, next) => { console.log(ctx.method); await next() }, controller.remove)
 
 router.get('/', controller.all)
 

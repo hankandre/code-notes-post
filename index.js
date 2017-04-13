@@ -8,7 +8,7 @@ const dbUri = env === 'production'
                       ? `mongodb://${dbUser}:${dbPw}@ds159180.mlab.com:59180/posts`
                       : `mongodb://localhost/posts`
 
-mongoose.Promise = require('bluebird')
+mongoose.Promise = global.Promise
 mongoose.connect(dbUri)
 
 mongoose.connection.on('error', (err) => {

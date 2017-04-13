@@ -8,11 +8,13 @@ const router = require('./routes')
 
 const app = new Koa()
 
+// Set up middleware
 app.use(logger())
 app.use(bodyParser())
 app.use(compress())
 app.use(router.routes())
 
+// Start API
 const server = app.listen(process.env.PORT || 3000, () => {
-  console.log(chalk.green(`Listening on port ${chalk.green.bold(server.address().port)}`))
+  console.log(chalk.blue(`Listening on port ${chalk.blue.bold(server.address().port)}`))
 })

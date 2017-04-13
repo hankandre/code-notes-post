@@ -1,5 +1,5 @@
 'use strict'
-const PostModel = require('../../models').PostModel
+const Post = require('../../models').Post
 
 module.exports = {
   find: find,
@@ -11,29 +11,40 @@ module.exports = {
 
 async function find (ctx) {
   const id = ctx.params.id
-  const doc = await PostModel.findById(id)
+  const doc = await Post.findById(id)
   ctx.body = doc
 }
 
 async function all (ctx) {
-  ctx.body = ctx.query
+  const take = parseInt(ctx.query.take)
+  const skip = parseInt(ctx.query.skip)
+
+  ctx.body = {
+    posts: await Post.find({isDeleted: false}).skip(skip).limit(take),
+    total: await Post.find().count()
+  }
 }
 
 async function save (ctx) {
   const body = ctx.request.body
-  const post = new PostModel(body)
+  const post = new Post(body)
   const doc = await post.save()
+  console.log(doc)
   ctx.body = doc
 }
 
 async function update (ctx) {
   const body = ctx.request.body
-  const doc = await PostModel.findByIdAndUpdate(body.id, body)
+  const doc = await Post.findByIdAndUpdate(body._id, body, {new: true})
   ctx.body = doc
 }
 
 async function remove (ctx) {
-  const id = ctx.request.body._id
-  const doc = await PostModel.findByIdAndUpdate(id, {isDeleted: true})
-  ctx.body = doc
+  try {
+    const id = ctx.params.id
+    const doc = await Post.findByIdAndUpdate(id, {isDeleted: true}, {new: true}).exec()
+    ctx.body = doc
+  } catch (err) {
+    ctx.throw(404, err)
+  }
 }
