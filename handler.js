@@ -5,9 +5,9 @@ const { send } = require('micro')
 module.exports = {
   find,
   all,
-  remove,
+  save,
   update,
-  save
+  remove
 }
 
 async function find ({params: { id }}) {
