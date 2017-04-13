@@ -1,9 +1,9 @@
 'use strict'
 const Router = require('koa-router')
 const router = new Router()
-const blogPost = require('./blog-post')
+const post = require('./post')
 const routes = [
-  blogPost
+  post
 ]
 
 routes.forEach((route) => {
