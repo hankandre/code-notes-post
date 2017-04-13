@@ -21,12 +21,22 @@ describe('GET /', () => {
         done()
       })
   })
-  it('response.posts should be an array', (done) => {
+  it('response should contain everything without skip and take', (done) => {
     supertest
       .get('/')
       .end((err, res) => {
         const body = res.body
         body.posts.should.be.a('array')
+        done()
+      })
+  })
+
+  it('response should return 3 documents if skip=0 and take=3', (done) => {
+    supertest
+      .get('/?skip=0&take=3')
+      .end((err, res) => {
+        const body = res.body
+        body.posts.length.should.equal(3)
         done()
       })
   })
