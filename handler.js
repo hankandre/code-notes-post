@@ -1,5 +1,7 @@
 'use strict'
-const Post = require('../../models').Post
+const Post = require('./PostSchema')
+const { send, json} = require('micro')
+const querystring = require('querystring')
 
 module.exports = {
   find: find,
@@ -9,17 +11,20 @@ module.exports = {
   remove: remove
 }
 
-async function find (ctx) {
+async function find ({body}) {
   const id = ctx.params.id
   const doc = await Post.findById(id)
   ctx.body = doc
 }
 
-async function all (ctx) {
-  const take = parseInt(ctx.query.take)
-  const skip = parseInt(ctx.query.skip)
+async function all (req, res) {
+  req.query = querystring.parse(req.url.substring(2))
+  console.log(req.query)
+  const take = parseInt(req.query.take)
+  const skip = parseInt(req.query.skip)
+  console.log(take, skip)
 
-  ctx.body = {
+  return {
     posts: await Post.find({isDeleted: false}).skip(skip).limit(take),
     total: await Post.find().count()
   }
