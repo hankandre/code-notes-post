@@ -11,7 +11,7 @@ describe('GET /', () => {
       .expect(200, done)
   })
 
-  it('response should container posts and total properties', (done) => {
+  it('response should contain "posts" and "total" properties', (done) => {
     supertest
       .get('/')
       .end((err, res) => {
