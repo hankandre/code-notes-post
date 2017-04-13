@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "NODE_ENV=production nodemon index.js",
+    "start-dev": "nodemon index.js"
   },
   "engines": {
     "node": "7.9.0"
