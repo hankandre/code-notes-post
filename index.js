@@ -5,8 +5,8 @@ const dbPw = process.env.DB_PW
 const mongoose = require('mongoose')
 const chalk = require('chalk')
 const dbUri = env === 'production'
-                      ? `mongodb://${dbUser}:${dbPw}@ds159180.mlab.com:59180/posts`
-                      : `mongodb://localhost/posts`
+                      ? `mongodb://${dbUser}:${dbPw}@ds161190.mlab.com:61190/blog`
+                      : `mongodb://localhost/blog`
 
 mongoose.Promise = global.Promise
 mongoose.connect(dbUri)
