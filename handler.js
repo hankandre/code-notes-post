@@ -35,12 +35,12 @@ async function all ({res, params: {skip, take}}) {
   }
 }
 
-async function save ({res, body, req: {headers}}) {
-  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+async function save ({res, body, req: {headers: {authentication}}}) {
+  if (!authentication || !authentication.includes('Bearer')) {
     return send(res, 400, { error: 'Authentication header not present or malformed.' })
   }
   try {
-    const token = parseHeader(headers['authentication'])
+    const token = parseHeader(authentication)
     await verify(token, process.env.JWT_SECRET)
     const post = new Post(body)
     const doc = await post.save()
@@ -50,12 +50,12 @@ async function save ({res, body, req: {headers}}) {
   }
 }
 
-async function update ({res, body, req: {headers}}) {
-  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+async function update ({res, body, req: {headers: {authentication}}}) {
+  if (!authentication || !authentication.includes('Bearer')) {
     send(res, 400, { error: 'Authentication header not present or malformed.' })
   }
   try {
-    const token = parseHeader(headers['authentication'])
+    const token = parseHeader(authentication)
     await verify(token, process.env.JWT_SECRET)
     const doc = await Post.findByIdAndUpdate(body._id, body, {new: true})
     return doc
@@ -64,12 +64,12 @@ async function update ({res, body, req: {headers}}) {
   }
 }
 
-async function remove ({res, params: {id}, req: {headers}}) {
-  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+async function remove ({res, params: {id}, req: {headers: {authentication}}}) {
+  if (!authentication || !authentication.includes('Bearer')) {
     send(res, 400, { error: 'Authentication header not present or malformed.' })
   }
   try {
-    const token = parseHeader(headers['authentication'])
+    const token = parseHeader(authentication)
     await verify(token, process.env.JWT_SECRET)
     const doc = await Post.findByIdAndUpdate(id, {isDeleted: true}, {new: true}).exec()
     return doc

@@ -1,4 +1,10 @@
 {
+  "name": "personal-site-apis-posts",
+  "version": "1.0.0",
+  "description": "Blog post API for my personal site",
+  "main": "index.js",
+  "author": "Hank Andre",
+  "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production micro index.js"
   },
