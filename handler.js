@@ -1,6 +1,7 @@
 'use strict'
 const Post = require('./PostSchema')
 const { send } = require('micro')
+const { verify } = require('./jwt')
 
 module.exports = {
   find,
@@ -10,35 +11,69 @@ module.exports = {
   remove
 }
 
-async function find ({params: { id }}) {
-  console.log(id)
-  const doc = await Post.findById(id)
-  return doc
+function parseHeader (authentication) {
+  return authentication.split(' ')[1]
 }
 
-async function all ({params: {skip, take}}) {
-  return {
-    posts: await Post.find({isDeleted: false}).skip(parseInt(skip)).limit(parseInt(take)),
-    total: await Post.find().count()
+async function find ({res, params: { id }}) {
+  try {
+    const doc = await Post.findById(id)
+    return doc
+  } catch (err) {
+    send(res, 404, { error: err })
   }
 }
 
-async function save ({body}) {
-  const post = new Post(body)
-  const doc = await post.save()
-  return doc
-}
-
-async function update ({body}) {
-  const doc = await Post.findByIdAndUpdate(body._id, body, {new: true})
-  return doc
-}
-
-async function remove ({res, params: {id}}) {
+async function all ({res, params: {skip, take}}) {
   try {
+    return {
+      posts: await Post.find({isDeleted: false}).skip(parseInt(skip)).limit(parseInt(take)),
+      total: await Post.find({isDeleted: false}).count()
+    }
+  } catch (err) {
+    send(res, 404, { error: err })
+  }
+}
+
+async function save ({res, body, req: {headers}}) {
+  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+    return send(res, 400, { error: 'Authentication header not present or malformed.' })
+  }
+  try {
+    const token = parseHeader(headers['authentication'])
+    await verify(token, process.env.JWT_SECRET)
+    const post = new Post(body)
+    const doc = await post.save()
+    return doc
+  } catch (err) {
+    return send(res, 404, {error: err})
+  }
+}
+
+async function update ({res, body, req: {headers}}) {
+  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+    send(res, 400, { error: 'Authentication header not present or malformed.' })
+  }
+  try {
+    const token = parseHeader(headers['authentication'])
+    await verify(token, process.env.JWT_SECRET)
+    const doc = await Post.findByIdAndUpdate(body._id, body, {new: true})
+    return doc
+  } catch (err) {
+    send(res, 404, { error: err })
+  }
+}
+
+async function remove ({res, params: {id}, req: {headers}}) {
+  if (!headers['authentication'] || !headers['authentication'].includes('Bearer')) {
+    send(res, 400, { error: 'Authentication header not present or malformed.' })
+  }
+  try {
+    const token = parseHeader(headers['authentication'])
+    await verify(token, process.env.JWT_SECRET)
     const doc = await Post.findByIdAndUpdate(id, {isDeleted: true}, {new: true}).exec()
     return doc
   } catch (err) {
-    send(res, 404, {error: 'document not found'})
+    send(res, 404, {error: err})
   }
 }

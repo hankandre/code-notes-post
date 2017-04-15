@@ -1,8 +1,7 @@
 'use strict'
-const chalk = require('chalk')
 const handler = require('./handler')
-const micro = require('micro')
 const microApi = require('micro-api')
+require('dotenv').config()
 
 const app = microApi([
   {
