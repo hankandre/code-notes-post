@@ -2,8 +2,10 @@
 const handler = require('./handler')
 const microApi = require('micro-api')
 require('dotenv').config()
+const microCors = require('micro-cors')
+const cors = microCors({allowMethods: ['GET', 'POST', 'PUT', 'DELETE']})
 
-const app = microApi([
+const app = cors(microApi([
   {
     method: 'get',
     path: '/:id',
@@ -29,6 +31,6 @@ const app = microApi([
     path: '/:id',
     handler: handler.remove
   }
-])
+]))
 
 module.exports = app
