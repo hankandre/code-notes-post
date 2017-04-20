@@ -11,8 +11,8 @@ module.exports = {
   remove
 }
 
-function parseHeader (authentication) {
-  return authentication.split(' ')[1]
+function parseHeader (authorization) {
+  return authorization.split(' ')[1]
 }
 
 async function find ({res, params: { id }}) {
@@ -35,12 +35,12 @@ async function all ({res, params: {skip, take}}) {
   }
 }
 
-async function save ({res, body, req: {headers: {authentication}}}) {
-  if (!authentication || !authentication.includes('Bearer')) {
-    return send(res, 400, { error: 'Authentication header not present or malformed.' })
+async function save ({res, body, req: {headers: {authorization}}}) {
+  if (!authorization || !authorization.includes('Bearer')) {
+    return send(res, 400, { error: 'Authorization header not present or malformed.' })
   }
   try {
-    const token = parseHeader(authentication)
+    const token = parseHeader(authorization)
     await verify(token, process.env.JWT_SECRET)
     const post = new Post(body)
     const doc = await post.save()
@@ -50,12 +50,12 @@ async function save ({res, body, req: {headers: {authentication}}}) {
   }
 }
 
-async function update ({res, body, req: {headers: {authentication}}}) {
-  if (!authentication || !authentication.includes('Bearer')) {
-    send(res, 400, { error: 'Authentication header not present or malformed.' })
+async function update ({res, body, req: {headers: {authorization}}}) {
+  if (!authorization || !authorization.includes('Bearer')) {
+    send(res, 400, { error: 'Authorization header not present or malformed.' })
   }
   try {
-    const token = parseHeader(authentication)
+    const token = parseHeader(authorization)
     await verify(token, process.env.JWT_SECRET)
     const doc = await Post.findByIdAndUpdate(body._id, body, {new: true})
     return doc
@@ -64,12 +64,12 @@ async function update ({res, body, req: {headers: {authentication}}}) {
   }
 }
 
-async function remove ({res, params: {id}, req: {headers: {authentication}}}) {
-  if (!authentication || !authentication.includes('Bearer')) {
-    send(res, 400, { error: 'Authentication header not present or malformed.' })
+async function remove ({res, params: {id}, req: {headers: {authorization}}}) {
+  if (!authorization || !authorization.includes('Bearer')) {
+    send(res, 400, { error: 'Authorization header not present or malformed.' })
   }
   try {
-    const token = parseHeader(authentication)
+    const token = parseHeader(authorization)
     await verify(token, process.env.JWT_SECRET)
     const doc = await Post.findByIdAndUpdate(id, {isDeleted: true}, {new: true}).exec()
     return doc
