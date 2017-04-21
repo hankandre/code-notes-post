@@ -36,6 +36,7 @@ async function all ({res, params: {skip, take}}) {
 }
 
 async function save ({res, body, req: {headers: {authorization}}}) {
+  console.log(body)
   if (!authorization || !authorization.includes('Bearer')) {
     return send(res, 400, { error: 'Authorization header not present or malformed.' })
   }
@@ -46,7 +47,7 @@ async function save ({res, body, req: {headers: {authorization}}}) {
     const doc = await post.save()
     return doc
   } catch (err) {
-    return send(res, 404, {error: err})
+    return send(res, 400, {error: err})
   }
 }
 
