@@ -16,7 +16,8 @@ mongoose.connection.on('error', (err) => {
 })
 
 mongoose.connection.on('connected', () => {
-  console.log(chalk.green(`Mongoose connected to: \n\t${chalk.green.bold.underline(dbUri)}`))
+  if (env === 'production') console.log(chalk.green.bold(`Mongoose connected to production database`))
+  console.log(chalk.green.bold(`Mongoose connected to development database`))
 })
 
 mongoose.connection.on('disconnected', () => {
