@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PostSchema = new Schema({
   title: { type: String, required: true },
-  image: { type: String, default: 'https://static.pexels.com/photos/389818/pexels-photo-389818.jpeg' },
+  image: { type: String, default: '//unsplash.it/1600/900' },
   content: { type: String, required: true },
   type: {type: String, required: true},
   tags: [{ type: String }],
