@@ -12,10 +12,11 @@ module.exports = {
 }
 
 function parseHeader (authorization) {
-  return authorization.split(' ')[1]
+  return authorization.split(' ').pop()
 }
 
 async function find ({res, params: { id }}) {
+  // TODO: Implement find by slug http://tinyurl.com/n3havlm
   try {
     const doc = await Post.findById(id)
     return doc

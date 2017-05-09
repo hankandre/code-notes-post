@@ -1,6 +1,10 @@
 'use strict'
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+/**
+ * TODO: Create slug for post for clean urls
+ * http://tinyurl.com/n3havlm
+ */
 const PostSchema = new Schema({
   title: { type: String, required: true },
   image: { type: String, default: '//unsplash.it/1600/700' },
