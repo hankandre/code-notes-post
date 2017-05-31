@@ -6,7 +6,9 @@
   "author": "Hank Andre",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=production micro index.js"
+    "start": "NODE_ENV=production micro index.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": "7.9.0"
@@ -19,12 +21,14 @@
     "micro": "^7.3.3",
     "micro-api": "^0.2.0",
     "micro-cors": "^0.0.4",
-    "mongoose": "^4.10.2"
+    "mongoose": "^4.10.2",
+    "snyk": "^1.32.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.4.2",
     "standard": "^10.0.2",
     "supertest": "^3.0.0"
-  }
+  },
+  "snyk": true
 }
