@@ -22,7 +22,7 @@
     "micro-api": "^0.2.0",
     "micro-cors": "^0.0.4",
     "mongoose": "^4.10.2",
-    "snyk": "^1.32.0"
+    "snyk": "^1.41.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
